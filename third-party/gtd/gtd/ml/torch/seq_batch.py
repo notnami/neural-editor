@@ -116,6 +116,7 @@ class SequenceBatch(namedtuple('SequenceBatch', ['values', 'mask']), NamedTupleL
         weighted = values * weights
         return torch.sum(weighted, dim=1).squeeze(dim=1)
 
+
     @classmethod
     def reduce_sum(cls, seq_batch):
         weights = GPUVariable(torch.ones(*seq_batch.mask.size()))

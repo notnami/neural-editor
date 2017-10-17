@@ -6,6 +6,7 @@ from itertools import izip
 from os import listdir
 import os
 from os.path import dirname, realpath, join
+import warnings
 
 import numpy as np
 import torch
@@ -110,8 +111,13 @@ class EditDataSplits(object):
             total_lines = int(local('wc -l {}'.format(path), capture=True).split()[0])
 
             with codecs.open(path, 'r', encoding='utf-8') as f:
-                for line in verboserate(f, desc='Reading data file.', total=total_lines):
-                    src, trg = line.strip().lower().split('\t')
+                for n, line in enumerate(verboserate(f, desc='Reading data file.', total=total_lines)):
+                    try:
+                        src, trg = line.strip().lower().split('\t')
+                    except ValueError as e:
+                        warnings.warn('{} at line {}'.format(e, n))
+                        continue
+
                     src_words = src.split(' ')
                     trg_words = trg.split(' ')
                     assert len(src_words) > 0
