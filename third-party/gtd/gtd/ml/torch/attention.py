@@ -95,7 +95,7 @@ class Attention(Module):
 
         # no_cells is a FloatTensor with shape (batch_size, num_cells)
         # no_cells[i, j] = 1 if example i has NO memory cells, 0 otherwise
-        no_cells = (1 - mask).prod(1).expand_as(mask)
+        no_cells = (1 - mask).prod(1, keepdim=True).expand_as(mask)
         # TODO(kelvin): check for numerical stability. Product of 1's does not necessarily equal 1 exactly, which we need
 
         suppress = GPUVariable(torch.zeros(*mask.size()))

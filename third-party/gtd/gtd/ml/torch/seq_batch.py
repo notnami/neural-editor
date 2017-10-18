@@ -114,7 +114,8 @@ class SequenceBatch(namedtuple('SequenceBatch', ['values', 'mask']), NamedTupleL
         weights = weights * mask  # ignore weights outside mask
         weights = expand_dims_for_broadcast(weights, values).expand(values.size())
         weighted = values * weights
-        return torch.sum(weighted, dim=1).squeeze(dim=1)
+        # return torch.sum(weighted, 1).squeeze(dim=1)
+        return torch.sum(weighted, 1, keepdim=True).squeeze(dim=1)
 
 
     @classmethod

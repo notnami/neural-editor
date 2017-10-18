@@ -142,8 +142,8 @@ class TrainingRuns(Mapping):
         cfg_path = self._config_path(save_dir)
         config.to_file(cfg_path)  # save the config
         run = self._run_factory(config, save_dir)
-        run.record_commit(self._src_dir)
-        run.dump_diff(self._src_dir)
+        # run.record_commit(self._src_dir)
+        # run.dump_diff(self._src_dir)
         run.metadata['config'] = config._config_tree  # save config in metadata, for programmatic access
 
         print 'New TrainingRun created at: {}'.format(run.workspace.root)
